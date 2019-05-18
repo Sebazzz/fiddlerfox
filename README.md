@@ -7,7 +7,7 @@ Firefox uses its own proxy settings instead of the OS-native proxy settings. The
 
 This poses a problem when you start Fiddler after you start Firefox. When Fiddler is enabled, it modifies the system proxy settings so that Fiddler is used as a proxy. Firefox does not notice this change, and keeps using whatever proxy was configured when it started.
 
-Until this extension was developed, you needed to fiddle with the proxy settings buried deep in the Firefox menu, or restart the browse which is quite annoying during development with numberous of tabs and windows open.
+Until this extension was developed, you needed to fiddle with the proxy settings buried deep in the Firefox menu, or restart the browser which is quite annoying during development with numberous of tabs and windows open.
 
 ### What's up with FiddlerHook?
 Fiddler installs [FiddlerHook](http://docs.telerik.com/fiddler/knowledgebase/fiddlerhook), a local Firefox extension for detecting the presence of Fiddler and automatically enabling direction to Fiddler.
