@@ -27,7 +27,9 @@
   "incognito": "spanning",
   
   "permissions": [
-    "proxy"
+    "proxy",
+	"*://*/*",
+	"webRequest"
   ],
   
   "background": {

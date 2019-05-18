@@ -1,5 +1,20 @@
 let proxyEnabled = false;
 
+function onWebRequestRedirectToFiddler(requestInfo) {
+	console.log('Proxying request to Fiddler: %s', requestInfo && requestInfo.documentUrl);
+	
+	return {
+		type: 'http',
+		host: 'localhost',
+		port: 8888,
+		failoverTimeout: 60* 60 * 24
+	};
+}
+
+function onProxyErr() {
+	console.error(arguments);
+}
+
 browser.browserAction.onClicked.addListener(() => {
     if (!proxyEnabled) {
         enableProxy();
@@ -13,7 +28,8 @@ async function enableProxy() {
         browser.browserAction.disable();
         
         console.log('Enabling proxy script...');
-        await browser.proxy.register('fiddler.js');
+        browser.proxy.onRequest.addListener(onWebRequestRedirectToFiddler, { urls: ['*://*/*', 'http://example.com/'] } );
+		browser.proxy.onError.removeListener(onProxyErr);
         console.log('Enabled proxy script.');
         
         proxyEnabled = true;
@@ -29,7 +45,8 @@ async function disableProxy() {
         browser.browserAction.disable();
         
         console.log('Disabling proxy script...');
-        await browser.proxy.unregister();
+        browser.proxy.onRequest.removeListener(onWebRequestRedirectToFiddler);
+        browser.proxy.onError.removeListener(onProxyErr);
         console.log('Disabled proxy script.');
         
         proxyEnabled = false;
