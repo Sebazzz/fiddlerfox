@@ -2,12 +2,13 @@
 
   "manifest_version": 2,
   "name": "FiddlerFox",
-  "version": "0.2",
+  "version": "0.3",
 
   "description": "Allows you to point Firefox to your fiddler instance if it doesn't refresh the proxy settings after Fiddler has started.",
 
   "icons": {
-    "96": "icons/ext.png"
+    "48": "icons/ext.png",
+    "96": "icons/ext@2x.png"
   },
 
   "author": "Sebastiaan Dammann [damsteen.nl]",
