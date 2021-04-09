@@ -13,7 +13,6 @@
       "48": "icons/ext.png",
       "96": "icons/ext@2x.png"
     },
-    "default_area": "tabstrip",
     "default_title": "Toggle redirection to Fiddler proxy"
   },
   "developer": {
