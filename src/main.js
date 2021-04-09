@@ -4,7 +4,7 @@ let port = '8888';
 let urls = ['*://*/*']
 
 function onWebRequestRedirectToFiddler(requestInfo) {
-	// console.log('Proxying request to Fiddler', requestInfo, requestInfo.documentUrl);
+	console.log('Proxying request to Fiddler', requestInfo, requestInfo.documentUrl);
 
 	return {
 		type: 'http',
@@ -30,7 +30,7 @@ async function enableProxy() {
     try {
         browser.browserAction.disable();
 
-        try{
+        try {
             const storageHost = await browser.storage.sync.get('host');
             const storagePort = await browser.storage.sync.get('port');
             const storageUrls = await browser.storage.sync.get('urls');
@@ -38,7 +38,7 @@ async function enableProxy() {
             host = storageHost.host || host;
             port = storagePort.port || port;
             urls = storageUrls.urls || urls;
-        }catch(error){
+        } catch(error){
             console.log('Options error: %s', error);
         }    
         
