@@ -1,13 +1,16 @@
 let proxyEnabled = false;
+let host = 'localhost';
+let port = '8888';
+let urls = ['*://*/*']
 
 function onWebRequestRedirectToFiddler(requestInfo) {
-	console.log('Proxying request to Fiddler: %s', requestInfo && requestInfo.documentUrl);
-	
+	// console.log('Proxying request to Fiddler', requestInfo, requestInfo.documentUrl);
+
 	return {
 		type: 'http',
-		host: 'localhost',
-		port: 8888,
-		failoverTimeout: 60* 60 * 24
+		host,
+		port,
+		failoverTimeout: 60 * 60 * 24
 	};
 }
 
@@ -26,10 +29,24 @@ browser.browserAction.onClicked.addListener(() => {
 async function enableProxy() {
     try {
         browser.browserAction.disable();
+
+        try{
+            const storageHost = await browser.storage.sync.get('host');
+            const storagePort = await browser.storage.sync.get('port');
+            const storageUrls = await browser.storage.sync.get('urls');
+            console.log(storageUrls);
+            host = storageHost.host || host;
+            port = storagePort.port || port;
+            urls = storageUrls.urls || urls;
+        }catch(error){
+            console.log('Options error: %s', error);
+        }    
         
         console.log('Enabling proxy script...');
-        browser.proxy.onRequest.addListener(onWebRequestRedirectToFiddler, { urls: ['*://*/*', 'http://example.com/'] } );
-		browser.proxy.onError.removeListener(onProxyErr);
+        console.log('Host: %s, Port: %s', host, port);
+        console.log('Redirecting Urls', urls);
+        browser.proxy.onRequest.addListener(onWebRequestRedirectToFiddler, { urls } );
+		browser.proxy.onError.addListener(onProxyErr);
         console.log('Enabled proxy script.');
         
         proxyEnabled = true;
@@ -51,7 +68,7 @@ async function disableProxy() {
         
         proxyEnabled = false;
         browser.browserAction.setBadgeText({text: ''});
-        browser.browserAction.setBadgeBackgroundColor({color:''});
+        browser.browserAction.setBadgeBackgroundColor({color:'green'});
     } finally {
         browser.browserAction.enable();
     }
