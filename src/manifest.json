@@ -4,14 +4,14 @@
   "version": "0.4",
   "description": "Allows you to point Firefox to your fiddler instance if it doesn't refresh the proxy settings after Fiddler has started.",
   "icons": {
-    "48": "icons/ext.png",
-    "96": "icons/ext@2x.png"
+    "48": "icons/ext.svg",
+    "96": "icons/ext.svg"
   },
   "author": "Sebastiaan Dammann [damsteen.nl]",
   "browser_action": {
     "default_icon": {
-      "48": "icons/ext.png",
-      "96": "icons/ext@2x.png"
+      "48": "icons/ext.svg",
+      "96": "icons/ext.svg"
     },
     "default_title": "Toggle redirection to Fiddler proxy"
   },
