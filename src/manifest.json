@@ -1,43 +1,45 @@
 {
-
   "manifest_version": 2,
   "name": "FiddlerFox",
   "version": "0.4",
-
   "description": "Allows you to point Firefox to your fiddler instance if it doesn't refresh the proxy settings after Fiddler has started.",
-
   "icons": {
     "48": "icons/ext.png",
     "96": "icons/ext@2x.png"
   },
-
   "author": "Sebastiaan Dammann [damsteen.nl]",
-  
   "browser_action": {
     "default_icon": {
-		"48": "icons/ext.png",
-		"96": "icons/ext@2x.png"
-	},
-	"default_area": "tabstrip",
+      "48": "icons/ext.png",
+      "96": "icons/ext@2x.png"
+    },
+    "default_area": "tabstrip",
     "default_title": "Toggle redirection to Fiddler proxy"
   },
-  
   "developer": {
     "name": "Sebastiaan Dammann",
     "url": "https://damsteen.nl"
   },
-  
   "homepage_url": "https://github.com/Sebazzz/fiddlerfox",
-  
   "incognito": "spanning",
-  
   "permissions": [
     "proxy",
-	"*://*/*",
-	"webRequest"
+    "*://*/*",
+    "webRequest",
+    "storage"
   ],
-  
   "background": {
-    "scripts": ["main.js"]
+    "scripts": [
+      "main.js"
+    ]
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "browser_style": true
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "fiddlerfox@damsteen.nl"
+    }
   }
 }

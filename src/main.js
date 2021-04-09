@@ -1,13 +1,15 @@
 let proxyEnabled = false;
+let host = 'localhost';
+let port = '8888';
 
 function onWebRequestRedirectToFiddler(requestInfo) {
-	console.log('Proxying request to Fiddler: %s', requestInfo && requestInfo.documentUrl);
-	
+	// console.log('Proxying request to Fiddler', requestInfo, requestInfo.documentUrl);
+
 	return {
 		type: 'http',
-		host: 'localhost',
-		port: 8888,
-		failoverTimeout: 60* 60 * 24
+		host,
+		port,
+		failoverTimeout: 60 * 60 * 24
 	};
 }
 
@@ -26,9 +28,19 @@ browser.browserAction.onClicked.addListener(() => {
 async function enableProxy() {
     try {
         browser.browserAction.disable();
+
+        try{
+            const storageHost = await browser.storage.local.get('host');
+            const storagePort = await browser.storage.local.get('port');
+            host = storageHost.host || 'localhost';
+            port = storagePort.port || '8888';
+        }catch(error){
+            console.log('Options error: %s', error);
+        }    
         
         console.log('Enabling proxy script...');
-        browser.proxy.onRequest.addListener(onWebRequestRedirectToFiddler, { urls: ['*://*/*', 'http://example.com/'] } );
+        console.log('Host: %s, Port: %s', host, port);
+        browser.proxy.onRequest.addListener(onWebRequestRedirectToFiddler, { urls: ['*://*/*'] } );
 		browser.proxy.onError.removeListener(onProxyErr);
         console.log('Enabled proxy script.');
         
@@ -51,7 +63,7 @@ async function disableProxy() {
         
         proxyEnabled = false;
         browser.browserAction.setBadgeText({text: ''});
-        browser.browserAction.setBadgeBackgroundColor({color:''});
+        browser.browserAction.setBadgeBackgroundColor({color:'green'});
     } finally {
         browser.browserAction.enable();
     }
